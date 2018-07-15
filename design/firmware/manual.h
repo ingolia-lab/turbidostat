@@ -50,7 +50,7 @@ class ManualController : public Controller {
     ManualCommand **_commands;
     char *_commandChars;
 
-    const char *_name = "band-dsp-teensy";
+    const char *_name = "band-dsp-feather";
 };
 
 
