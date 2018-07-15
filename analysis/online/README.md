@@ -166,3 +166,7 @@ process ID of your analysis script (3141 in the example above) and
 tstat@web-server:~ > kill 3141
 ```
 
+#### Online analysis of turbidostat logs
+
+The `analysis-turbidostat.R` script generates a web page of automatic
+analysis from running turbidostats. Briefly, it extracts the 
