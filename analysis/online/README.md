@@ -114,3 +114,55 @@ data-logger:~ tstat$ ~/scripts/copy-run.sh
 ZZZ
 ```
 
+#### Automatically analyzing turbidostat data
+
+The `analyze-run.sh` script runs on the "web server" computer, watches
+for updated data copied over from the "data logger" computer, and runs
+an analysis script.
+
+##### Analysis configuration (just once)
+
+The `analyze-run.sh` script must be configured with the web-accessible
+output location, writable by the user running the script, as well as
+the path to the R analysis script itself. These two file paths are
+specified in variables at the top of the `analyze-run.sh` script.
+
+For example, if the `tstat` user's home directory is
+`/zpool/home/tstat/` and the scripts are located in the
+`turbidostat/analysis/online/` directory within their homedir:
+```
+#!/bin/bash
+
+export WWWPATH="/var/www/tstat/"
+export ANALYSIS="/zpool/home/tstat/turbidostat/analysis/online/analysis-turbidostat.R"
+...
+```
+
+Verify the configuration of the `analyze-run.sh` script by running it
+in the foreground:
+```
+tstat@web-server:~ > ~/turbidostat/analysis/online/analyze-run.sh ~/data/tstat-2018-01-23
+ZZZ
+...
+```
+
+##### Automatic analysis (each experiment)
+
+Run the `analyze-run.sh` script as an ongoing, background process on
+the "web server" computer:
+```
+tstat@web-server:~ > nohup ~/turbidostat/analysis/online/analyze-run.sh ~/data/tstat-2018-01-23 &
+[1] 3141
+appending output to nohup.out
+tstat@web-server:~ > 
+```
+
+Any output from the analysis will be written to the `nohup.out` file,
+and the script will keep looping even after you log out. When you
+ultimately want to stop the analysis script, use `ps` to find the
+process ID of your analysis script (3141 in the example above) and
+`kill` it:
+```
+tstat@web-server:~ > kill 3141
+```
+
