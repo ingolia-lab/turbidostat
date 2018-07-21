@@ -27,7 +27,7 @@ xs <- seq(expoStart, expoEnd)
 lines(xs / 60, predict(expofit, xs - expoStart), lwd=5, col="#de2d2680")
 dev.off()
 
-E# Extract the last 2 hours 
+# Extract the last 2 hours 
 final <- tmin[tmin$time.min >= (max(tmin$time.min) - 120),]
 dilufit <- lm(pumptime.s ~ time.min, data=final)
 
