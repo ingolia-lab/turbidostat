@@ -1,6 +1,6 @@
 library("RColorBrewer")
 
-tstatdir <- Sys.getenv("TSTATDIR")
+exptdir <- Sys.getenv("EXPTDIR")
 wwwpath <- Sys.getenv("WWWPATH")
 
 prefix <- "^T"
@@ -12,7 +12,7 @@ totalPumpTime <- 0
 ## Grep out one turbidostat header followed by all turbidostat data lines
 ## Direct into a temporary file and return the temporary filename
 extractTlog <- function(tstat) {
-    screenfile <- sprintf("%s/%s/screenlog.0", tstatdir, tstat)
+    screenfile <- sprintf("%s/%s/screenlog.0", exptdir, tstat)
     tlogfile <- tempfile(pattern="tlog", tmpdir=".", fileext=".txt")
 
     system(sprintf("grep \'%s\' \'%s\' | grep time.s | head -n1 > %s",
@@ -76,7 +76,7 @@ plotGrowth <- function(tlog) {
 }
 
 handleTstat <- function(tstat) {
-    if (!file.exists(sprintf("%s/%s/screenlog.0", tstatdir, tstat))) {
+    if (!file.exists(sprintf("%s/%s/screenlog.0", exptdir, tstat))) {
         return("")
     }
 
@@ -103,7 +103,9 @@ handleTstat <- function(tstat) {
             tstat, tstat)
 }
 
-tstats <- list.dirs(tstatdir, full.names=FALSE, recursive=FALSE)
+tstats <- list.dirs(exptdir, full.names=FALSE, recursive=FALSE)
+print(exptdir)
+print(tstats)
 
 htmlBody <- c()
 
