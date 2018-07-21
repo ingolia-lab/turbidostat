@@ -14,7 +14,7 @@ fi
 
 SAMPLES="NIAM007_1pre NIAM007_1post"
 
-GENOMEFA="saccharomyces_cerevisiae.fa"
+GENOMEFA="saccharomyces_cerevisiae_plus_tagbfp.fa"
 GENOMEBED="saccharomyces_cerevisiae.bed"
 
 for SAMPLE in ${SAMPLES}

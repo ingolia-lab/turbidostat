@@ -4,9 +4,8 @@ FASTQDIR="/PATH/TO/FASTQ/"
 DATADIR="/PATH/TO/Framing/"
 SAMPLES="NIAM007_1pre NIAM007_1post"
 
-INDEX="${DATADIR}/sac_cer_tagbfp"
-GENOMEFA="saccharomyces_cerevisiae.fa,tagbfp.fa"
-GENOMEBED="saccharomyces_cerevisiae.bed"
+INDEX="${DATADIR}/saccharomyces_cerevisiae_plus_tagbfp"
+GENOMEFA="/PATH/TO/saccharomyces_cerevisiae.fa,tagbfp.fa"
 
 if [[ ! -e "${INDEX}.1.bt2" ]];
 then
