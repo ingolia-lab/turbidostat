@@ -1,0 +1,35 @@
+[package]
+name = "cyh2"
+version = "0.1.0"
+authors = ["Nick Ingolia <ingolia@berkeley.edu>"]
+
+[dependencies]
+bio = "*"
+rust-htslib = "*"
+itertools = "*"
+csv = "*"
+error-chain = "*"
+clap = "*"
+
+[profile.dev]
+opt-level = 3
+
+[lib]
+name = "cyh2lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bc-seqs"
+path = "src/bc-seqs/main.rs"
+
+[[bin]]
+name = "bc-align"
+path = "src/bc-align/main.rs"
+
+[[bin]]
+name = "bc-pileup"
+path = "src/bc-pileup/main.rs"
+
+[[bin]]
+name = "bc-count"
+path = "src/bc-count/main.rs"
