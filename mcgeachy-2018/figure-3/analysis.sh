@@ -5,6 +5,8 @@ if [[ "$#" != "1" ]]; then
     exit 1
 fi
 
+# Extract path to script directory
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 DATADIR="$1"
 
 if [[ ! -d "${DATADIR}" ]]; then
@@ -74,3 +76,5 @@ do
         echo "${BEDORF} exists, skipping bedtools intersect for ${SAMPLE}"
     fi
 done
+
+( cd ${DATADIR} && R --no-save < "${SCRIPTDIR}/analysis-framing.R" )

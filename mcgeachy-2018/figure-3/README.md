@@ -1,7 +1,15 @@
 The [`analysis.sh`](analysis.sh) script in this directory will
 download aligned sequence data in BAM format from the NCBI SRA and
 tabulate reading frame statistics. Note that the raw data files are
-~22 GB and the analysis produces another ~9 GB of data files.
+~22 GB and the analysis produces another ~9 GB of data files. This
+script will then use the `analysis-framing.R` script (see below) to
+generate plots in the data directory. It requires a data directory
+where these ~30 GB of files will be stored and where the graphs will
+be generated:
+```
+mkdir /path/to/data
+./analysis.sh /path/to/data
+```
 
 The [`analysis-framing.R`](analysis-framing.R) script in this
 directory processes the data files tabulated by `analysis.sh` and
@@ -10,6 +18,7 @@ directory populated by `analysis.sh`. The relevant data files from the
 manuscript are in the `results` folder, and so running the following
 command in that directory will plot the graphs.
 ```
+cd results
 R --no-save < ../analysis-framing.R
 ```
 
