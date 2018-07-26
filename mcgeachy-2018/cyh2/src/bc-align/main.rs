@@ -1,32 +1,58 @@
 extern crate bio;
-extern crate rust_htslib;
+extern crate clap;
 extern crate itertools;
+extern crate rust_htslib;
 
-use std::collections::HashMap;
 use std::fs;                                                                                                                                                                      
-use std::io::{self,Write};
-use std::path::{Path,PathBuf};
+use std::ffi::OsString;
+use std::io;
+use std::path::PathBuf;
 use std::process;
 use std::string;
 
-use itertools::Itertools;
-
-use bio::io::fasta;
-
-use rust_htslib::bam::Read;
+use clap::{Arg, App};
 
 #[derive(Debug)]
 struct Config {
-    bowtie_index: PathBuf,
-    barcoded_fastq: PathBuf,
-    bowtie_bam: PathBuf,
+    reference_fasta: String,
+    barcoded_fastq: String,
+    out_bam: String,
 }
 
 fn main() {
+    let matches = App::new("bc-align")
+        .version("1.0")
+        .author("Nick Ingolia <ingolia@berkeley.edu>")
+        .about("Match R1 barcode sequences with R2 insert sequences")
+        .arg(Arg::with_name("barcodedfq")
+             .short("b")
+             .long("barcoded-fastq")
+             .value_name("BARCODED-FQ")
+             .help("FastQ file with barcodes in sequence names")
+             .takes_value(true)
+             .required(true))
+        .arg(Arg::with_name("referencefa")
+             .short("r")
+             .long("reference")
+             .value_name("REFERENCE-FA")
+             .help("Fasta format reference sequence")
+             .takes_value(true)
+             .required(true))
+        .arg(Arg::with_name("outbase")
+             .short("o")
+             .long("outbase")
+             .value_name("OUTBASE")
+             .help("Output filename base")
+             .takes_value(true)
+             .required(true))
+        .get_matches();
+
+    let outbase = matches.value_of("outbase").unwrap();
+    
     let config = Config {
-        bowtie_index: PathBuf::from("/mnt/ingolialab/ingolia/Cyh2/CYH2"), 
-        barcoded_fastq: PathBuf::from("/mnt/ingolialab/ingolia/Cyh2/171009_barcoded.fq"),
-        bowtie_bam: PathBuf::from("/mnt/ingolialab/ingolia/Cyh2/171009-bowtie.bam"),
+        reference_fasta: matches.value_of("referencefa").unwrap().to_string(),
+        barcoded_fastq: matches.value_of("barcodedfq").unwrap().to_string(),
+        out_bam: outbase.to_string() + ".bam",
     };
 
     match run(&config) {
@@ -36,21 +62,47 @@ fn main() {
 }
 
 fn run(config: &Config) -> Result<(), ProgError> {
-    align_targets(config)
+    let index = index_reference(config)?;
+    align_targets(config, &index)
 }
 
-fn align_targets(config: &Config) -> Result<(), ProgError> {
-    let bowtie_err = fs::File::create(config.bowtie_bam.with_extension(".txt"))?;
-    let bowtie_sam_path = config.bowtie_bam.with_extension("sam");
+fn index_reference(config: &Config) -> Result<PathBuf, ProgError> {
+    let reference_fb = PathBuf::from(&config.reference_fasta);
+    let default_file_name = OsString::from("bc-align-index");
+    let index_file_name = reference_fb.file_stem().unwrap_or(&default_file_name);
+    let index_base = PathBuf::from(&config.out_bam).with_file_name(index_file_name);
 
-    let bowtie_index_str = config.bowtie_index.to_str().else_string_error(|| "bowtie_index to path".to_owned())?;
-    let barcoded_fastq_str = config.barcoded_fastq.to_str().else_string_error(|| "barcoded_fastq to path".to_owned())?;
-    let bowtie_sam_str = bowtie_sam_path.to_str().else_string_error(|| "bowtie_sam to path".to_owned())?;
+    { 
+        let index_base_str = index_base.to_str().else_string_error(|| "index_base to string".to_owned())?;
+        
+        let bowtie_build_err = fs::File::create(index_base.with_extension("bowtie-build.txt"))?;
+        
+        let mut bowtie_build = process::Command::new("bowtie2-build")
+            .args(&[&config.reference_fasta, index_base_str, "-q"])
+            .stderr(bowtie_build_err)
+            .spawn()?;
+        
+        let bowtie_build_exit = bowtie_build.wait()?;
+        
+        if !bowtie_build_exit.success() {
+            return Err(ProgError::MyErr("bowtie-build exited with error".to_string()));
+        }
+    }
+
+    return Ok(index_base)
+}
+
+fn align_targets(config: &Config, index: &PathBuf) -> Result<(), ProgError> {
+    let bowtie_err = fs::File::create(PathBuf::from(&config.out_bam).with_extension("bowtie.txt"))?;
+    let bowtie_sam_path = PathBuf::from(&config.out_bam).with_extension("sam");
+
+    let bowtie_index_str = index.to_str().else_string_error(|| "bowtie_index to str".to_owned())?;
+    let bowtie_sam_str = bowtie_sam_path.to_str().else_string_error(|| "bowtie_sam to str".to_owned())?;
 
     let mut bowtie = process::Command::new("bowtie2")
         .args(&["-p36", "-a", "--np", "0", "-L", "20",
                 "-x", bowtie_index_str,
-                "-U", barcoded_fastq_str,
+                "-U", &config.barcoded_fastq,
                 "-S", bowtie_sam_str])
         .stderr(bowtie_err)
         .spawn()?;
@@ -61,7 +113,7 @@ fn align_targets(config: &Config) -> Result<(), ProgError> {
         return Err(ProgError::MyErr("bowtie exited with error".to_string()));
     }
 
-    let bam_unsorted = config.bowtie_bam.with_extension("unsorted-bam");
+    let bam_unsorted = PathBuf::from(&config.out_bam).with_extension("unsorted.bam");
     let bam_unsorted_str = bam_unsorted.to_str().else_string_error(|| "bam_unsorted to path".to_owned())?;
     let mut samtools_view = process::Command::new("samtools")
         .args(&["view", "-b", "-S", "-o", bam_unsorted_str, bowtie_sam_str])
@@ -72,9 +124,8 @@ fn align_targets(config: &Config) -> Result<(), ProgError> {
         return Err(ProgError::MyErr("samtools view exited with error".to_string()));
     }
 
-    let bowtie_bam_str = config.bowtie_bam.to_str().else_string_error(|| "bowtie_bam to path".to_owned())?;
     let mut samtools_sort = process::Command::new("samtools")
-        .args(&["sort", "-n", "-o", bowtie_bam_str, bam_unsorted_str])
+        .args(&["sort", "-n", "-o", &config.out_bam, bam_unsorted_str])
         .spawn()?;
 
     let samtools_exit = samtools_sort.wait()?;
