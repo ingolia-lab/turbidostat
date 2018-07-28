@@ -14,6 +14,18 @@ if [[ ! -d "${DATADIR}" ]]; then
     exit 1
 fi
 
+if [[ ! -e "${DATADIR}/NIAM007_1pre.bam" ]]; then
+    sam-dump SRR7548447 | samtools view -b -o "${DATADIR}/NIAM007_1pre.bam" -
+else
+    echo "${DATADIR}/NIAM007_1pre exists, skipping sam-dump"
+fi
+
+if [[ ! -e "${DATADIR}/NIAM007_1post.bam" ]]; then
+    sam-dump SRR7548448 | samtools view -b -o "${DATADIR}/NIAM007_1post.bam" -
+else
+    echo "${DATADIR}/NIAM007_1post exists, skipping sam-dump"
+fi
+
 SAMPLES="NIAM007_1pre NIAM007_1post"
 
 GENOMEFA="saccharomyces_cerevisiae_plus_tagbfp.fa"
