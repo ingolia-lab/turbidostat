@@ -15,10 +15,10 @@ fi
 export BCDIR="${DATADIR}/barcoding"
 mkdir -p ${BCDIR}
 
-SRR="SRRzzz1"
+SRR="SRR7594453"
 
-READ1FQ="${DATADIR}/NINI015.1.fq"
-READ2FQ="${DATADIR}/NINI015.2.fq"
+READ1FQ="${DATADIR}/${SRR}_1.fastq"
+READ2FQ="${DATADIR}/${SRR}_2.fastq"
 
 if [[ ! -e "${READ1FQ}" ]]; then
     fastq-dump --split-files -O "${BCDIR}" "${SRR}"
