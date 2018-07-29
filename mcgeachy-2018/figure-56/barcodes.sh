@@ -70,3 +70,13 @@ if [[ ! -e "${BCDIR}/barcode-classify.txt" ]]; then
 else
     echo "Skipping bc-pileup because ${BCDIR}/barcode-classify.txt exists"
 fi
+
+export COUNTDIR="${DATADIR}/counting"
+
+if [[ ! -e "${COUNTDIR}/good-counts.txt" ]]; then
+    grep Good$ "${BCDIR}/barcode-classify.txt" | cut -f1 > "${COUNTDIR}/barcodes-good.txt"
+    head -n1 "${COUNTDIR}/all-counts.txt" > "${COUNTDIR}/good-counts.txt"
+    grep -F -f "${COUNTDIR}/barcodes-good.txt" "${COUNTDIR}/all-counts.txt" >> "${COUNTDIR}/good-counts.txt"
+fi
+
+R --no-save < analysis.R
