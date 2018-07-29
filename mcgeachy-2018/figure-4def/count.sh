@@ -31,6 +31,7 @@ do
         fastq-dump -Z ${SRR} \
 	  | cutadapt -a ${ADAPTER} \
 		   -o ${COUNTTRIM} \
+		   --discard-untrimmed \
 		   - \
 		   > "${COUNTDIR}/${SAMPLE}-trim-report.txt"
     else
