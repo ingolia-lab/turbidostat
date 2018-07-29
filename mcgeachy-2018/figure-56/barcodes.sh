@@ -17,8 +17,8 @@ mkdir -p ${BCDIR}
 
 SRR="SRR7594453"
 
-READ1FQ="${DATADIR}/${SRR}_1.fastq"
-READ2FQ="${DATADIR}/${SRR}_2.fastq"
+READ1FQ="${BCDIR}/${SRR}_1.fastq"
+READ2FQ="${BCDIR}/${SRR}_2.fastq"
 
 if [[ ! -e "${READ1FQ}" ]]; then
     fastq-dump --split-files -O "${BCDIR}" "${SRR}"
@@ -36,6 +36,7 @@ if [[ ! -e "${TRIM_R1}" ]];
 then
     cutadapt -a "${CONSTANT}" \
 	   -o "${TRIM_R1}" -p "${TRIM_R2}" \
+	   --discard-untrimmed \
 	   "${READ1FQ}" "${READ2FQ}" > "${TRIMBASE}-report.txt"
 else
     echo "Skipping barcode trim because ${TRIM_R1} exists"
