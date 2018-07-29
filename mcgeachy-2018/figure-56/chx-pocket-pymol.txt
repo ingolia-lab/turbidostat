@@ -1,0 +1,46 @@
+# CHX is /4u3u///3HE`4252
+# RPL28 is /4u3u//n8
+# RPL42A is /4u3u//q2
+# 25S rRNA is /4u3u/KD/5
+
+# fetch 4u3u
+hide /4u3u
+show lines, /4u3u
+color grey75, /4u3u
+zoom /4u3u//n8
+show sphere, /4u3u//n8
+set bg_rgb,white
+
+show sphere, /4u3u///3HE`4252
+set_color chxcolor, [152/255.0, 78/255.0, 163/255.0]
+color chxcolor, /4u3u///3HE`4252
+
+select chx_rna_site, byres /4u3u/KD/5 near_to 5 of /4u3u///3HE`4252
+set_color rna_site_color, [55/255.0, 126/255.0, 184/255.0]
+show stick, chx_rna_site
+color rna_site_color, chx_rna_site
+
+select chx_prot_site, byres /4u3u//q2 near_to 5 of /4u3u///3HE`4252
+set_color prot_site_color, [77/255.0, 175/255.0, 74/255.0]
+show stick, chx_prot_site
+color prot_site_color, chx_prot_site
+
+# Good View for CHX pocket
+set_view (\
+     0.739569485,   -0.167695582,    0.651843607,\
+     0.486399084,    0.802569807,   -0.345380992,\
+    -0.465227336,    0.572495461,    0.675118029,\
+     0.000000000,    0.000000000, -113.241958618,\
+   152.188644409,  -43.494949341,  224.670974731,\
+    55.512237549,  170.971679688,  -20.000000000 )
+png chx-pocket-1.png, dpi=300
+
+# Good View #2 for CHX pocket
+set_view (\
+    -0.040836569,   -0.044775695,    0.998154521,\
+     0.717359483,    0.694065034,    0.060487550,\
+    -0.695485055,    0.718510985,    0.003775451,\
+     0.000000000,    0.000000000, -113.241958618,\
+   152.188644409,  -43.494949341,  224.670974731,\
+    55.512237549,  170.971679688,  -20.000000000 )
+png chx-pocket-2.png, dpi=300

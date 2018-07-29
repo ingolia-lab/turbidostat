@@ -363,7 +363,7 @@ for (i in seq(1,nrow(resistPos))) {
                        resistPos[i,"aapos"] + 1))
 }
 
-cat(pymol, file="chx-resist-pymol.txt", sep="\n")
+cat(pymol, file=sprintf("%s/chx-resist-pymol.txt", datadir), sep="\n")
 
 ## Epistasis analysis
 ## Group barcodes representing repeated multi-aa changes
