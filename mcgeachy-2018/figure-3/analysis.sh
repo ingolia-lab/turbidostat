@@ -61,7 +61,7 @@ do
     then
         cut -f1,2,3,6 "${BED}" \
 	  | sort | uniq -c \
-	  | awk '{ printf("%s\t%d\t%d\t%s_%d_%d_%s\t%d\t%s\n", $2, $3, $4, $2, $3, $4, $5, $1, $5) }' \
+	  | awk -f bedcount.awk \
 	        > "${BEDCOUNT}"
     else
         echo "${BEDCOUNT} exists, skipping cut/sort/uniq for ${SAMPLE}"
