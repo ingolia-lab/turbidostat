@@ -4,8 +4,8 @@ extern crate error_chain;
 extern crate bio;
 extern crate rust_htslib;
 
+use std::env;
 use std::fs;
-
 use std::io::{Write};
 use std::path::{Path,PathBuf};
 use std::rc::Rc;
@@ -71,15 +71,16 @@ impl Config {
 }
 
 fn main() {
-    let testing = false;
-    let ref_fa = if testing { "../CYH2_re_ligase.fa" } else { "/mnt/ingolialab/ingolia/Cyh2/CYH2_re_ligase.fa" };
-    let bam_path = if testing { "../test/" } else { "/mnt/ingolialab/ingolia/Cyh2/" };
+    let args: Vec<String> = env::args().collect();
+    let bam_path = &args[1];
+    
+    let ref_fa = "RPL28_library.fa";
     
     let config = Config {
         ref_fa: PathBuf::from(ref_fa),
-        bowtie_bam: PathBuf::from(bam_path).join("171009-bowtie.bam"),
-        tmpfile: PathBuf::from(bam_path).join("171009-bowtie-group.bam"),
-        outbase: PathBuf::from(bam_path).join("171009_barcoding/"),
+        bowtie_bam: PathBuf::from(bam_path).join("NINI015.bam"),
+        tmpfile: PathBuf::from(bam_path).join("NINI015-group.bam"),
+        outbase: PathBuf::from(bam_path),
         reqstart: 1096,
         reqend: 1545,
         exon_start: 1145,

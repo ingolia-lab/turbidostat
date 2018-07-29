@@ -65,3 +65,8 @@ else
     echo "Skipping bc-align because ${ALIGNED} exists"
 fi
 
+if [[ ! -e "${BCDIR}/barcode-classify.txt" ]]; then
+    ../cyh2/target/debug/bc-pileup "${BCDIR}"
+else
+    echo "Skipping bc-pileup because ${BCDIR}/barcode-classify.txt exists"
+fi
