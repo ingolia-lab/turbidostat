@@ -63,16 +63,16 @@
 
    Use the `m` command in the controller software. The turbidity measurements should read a small value (typically between 0.1 and 0.5). Leave the measurement running during inoculation.
       
-```
-# band-dsp-feather manual [acghmpsz] > m
-M       time.s  neph    gain
-M       1972.2   0.526  5
-M       1972.7   0.709  5
-M       1973.2   0.725  5
-M       1973.7   0.735  5
-M       1974.2   0.620  5
-...
-```
+   ```
+   # band-dsp-feather manual [acghmpsz] > m
+   M       time.s  neph    gain
+   M       1972.2   0.526  5
+   M       1972.7   0.709  5
+   M       1973.2   0.725  5
+   M       1973.7   0.735  5
+   M       1974.2   0.620  5
+   ...
+   ```
    
 1. Shut off the air input. Clamp the silicone tubing from the air pump to the humidifier, or detach the tubing entirely.
 
