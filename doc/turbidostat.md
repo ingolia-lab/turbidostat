@@ -20,36 +20,36 @@
    1. Spray the media line connector and the media delivery connector on the reservoir with 70% ethanol.
    1. Uncap the connectors and join them together.
 1. Prime the media line by running the media pump.
-	1. Use `p` to manually activate a pump
-	1. Select the pump connected to the media pump line, e.g. `A`.
-	1. Specify 100 seconds of pumping
-	1. Watch flow of media through the feed line and stop the pump by hitting any key as soon as media starts to drip into the growth chamber. 
+      1. Use `p` to manually activate a pump
+      1. Select the pump connected to the media pump line, e.g. `A`.
+      1. Specify 100 seconds of pumping
+      1. Watch flow of media through the feed line and stop the pump by hitting any key as soon as media starts to drip into the growth chamber. 
 	
-	   If the line was installed backwards in the peristaltic pump, air will bubble into the media reservoir; if this happens, simply reverse the pump tubing and re-prime the line. 
+         If the line was installed backwards in the peristaltic pump, air will bubble into the media reservoir; if this happens, simply reverse the pump tubing and re-prime the line. 
 
-	```
-	# band-dsp-feather manual [acghmpsz] > p
-	# Which pump [A,B,C,D]: a
-	# Enter pump duration (sec): 100
-	# Planned pumping time: 100 sec (any key to interrupt)
-	# Pumped 76.957 seconds
-	# band-dsp-feather manual [acghmpsz] >
-	```
+      ```
+      # band-dsp-feather manual [acghmpsz] > p
+      # Which pump [A,B,C,D]: a
+      # Enter pump duration (sec): 100
+      # Planned pumping time: 100 sec (any key to interrupt)
+      # Pumped 76.957 seconds
+      # band-dsp-feather manual [acghmpsz] >
+      ```
 
 1. Fill the growth chamber with media.
 
-	1. Use `p` to manually activate a pump
-	1. Select the pump connected to the media pump line, e.g. `A`.
-	1. Specify 800 seconds of pumping
+   1. Use `p` to manually activate a pump
+   1. Select the pump connected to the media pump line, e.g. `A`.
+   1. Specify 800 seconds of pumping
    
-	```
-	# band-dsp-feather manual [acghmpsz] > p
-	# Which pump [A,B,C,D]: a
-	# Enter pump duration (sec): 800
-	# Planned pumping time: 800 sec (any key to interrupt)
-	# Pumped 800.000 seconds
-	# band-dsp-feather manual [acghmpsz] > 
-	```
+      ```
+      # band-dsp-feather manual [acghmpsz] > p
+      # Which pump [A,B,C,D]: a
+      # Enter pump duration (sec): 800
+      # Planned pumping time: 800 sec (any key to interrupt)
+      # Pumped 800.000 seconds
+      # band-dsp-feather manual [acghmpsz] > 
+      ```
    
    _Note_ that pumping time can be used to compute media volume. The peristaltic pump runs at 315 revolutions per minute. With ID 1.0mm tubing, it delivers 48 µl / revolution, or 252 µl / second. At this pumping rate, 800 seconds of pumping delivers 202 ml of media.
    
@@ -63,16 +63,16 @@
 
    Use the `m` command in the controller software. The turbidity measurements should read a small value (typically between 0.1 and 0.5). Leave the measurement running during inoculation.
       
-	```
-	# band-dsp-feather manual [acghmpsz] > m
-	M       time.s  neph    gain
-	M       1972.2   0.526  5
-	M       1972.7   0.709  5
-	M       1973.2   0.725  5
-	M       1973.7   0.735  5
-	M       1974.2   0.620  5
-	...
-	```
+```
+# band-dsp-feather manual [acghmpsz] > m
+M       time.s  neph    gain
+M       1972.2   0.526  5
+M       1972.7   0.709  5
+M       1973.2   0.725  5
+M       1973.7   0.735  5
+M       1974.2   0.620  5
+...
+```
    
 1. Shut off the air input. Clamp the silicone tubing from the air pump to the humidifier, or detach the tubing entirely.
 
@@ -87,54 +87,54 @@
 1. Allow the inoculum to mix homogeneously throughout the growth chamber, which typically takes a minute or so.
 1. Note the change in turbidity measurement and determine the relationship between cell density and turbidity.
 
-	```
-	...
-	M       2034.0   0.422  5
-	M       2034.5   0.412  5
-	M       2035.0   0.544  5
-	M       2035.5   0.613  5
-	M       2036.0   0.703  5
-	M       2036.5   0.651  5
-	M       2037.0   0.501  5
-	M       2037.5   0.510  5
-	M       2038.0   0.622  5
-	M       2038.5   0.623  5
-	M       2039.0   0.456  5
-	M       2039.5   3.053  5
-	M       2040.0   1.644  5
-	M       2040.5   1.715  5
-	M       2041.0   6.748  5
-	M       2041.5  12.634  5
-	M       2042.0  10.852  5
-	M       2042.5   9.702  5
-	M       2043.0   8.681  5
-	M       2043.5   6.704  5
-	M       2044.0   6.003  5
-	M       2044.5   6.259  5
-	M       2045.0   6.042  5
-	M       2045.5   5.910  5
-	M       2046.0   5.975  5
-	M       2046.5   5.817  5
-	M       2047.0   5.727  5
-	M       2047.5   5.336  5
-	M       2048.0   5.289  5
-	M       2048.5   4.882  5
-	M       2049.0   5.545  5
-	M       2049.5   6.430  5
-	M       2050.0   6.302  5
-	M       2050.5   6.421  5
-	M       2051.0   6.523  5
-	M       2051.5   6.359  5
-	...
-	M       2096.7   6.439  5
-	M       2097.2   6.167  5
-	M       2097.7   6.414  5
-	M       2098.2   6.593  5
-	M       2098.7   6.312  5
-	M       2099.2   6.515  5
-	M       2099.7   6.494  5
-	M       2100.2   6.892  5	
-	```
+```
+...
+M       2034.0   0.422  5
+M       2034.5   0.412  5
+M       2035.0   0.544  5
+M       2035.5   0.613  5
+M       2036.0   0.703  5
+M       2036.5   0.651  5
+M       2037.0   0.501  5
+M       2037.5   0.510  5
+M       2038.0   0.622  5
+M       2038.5   0.623  5
+M       2039.0   0.456  5
+M       2039.5   3.053  5
+M       2040.0   1.644  5
+M       2040.5   1.715  5
+M       2041.0   6.748  5
+M       2041.5  12.634  5
+M       2042.0  10.852  5
+M       2042.5   9.702  5
+M       2043.0   8.681  5
+M       2043.5   6.704  5
+M       2044.0   6.003  5
+M       2044.5   6.259  5
+M       2045.0   6.042  5
+M       2045.5   5.910  5
+M       2046.0   5.975  5
+M       2046.5   5.817  5
+M       2047.0   5.727  5
+M       2047.5   5.336  5
+M       2048.0   5.289  5
+M       2048.5   4.882  5
+M       2049.0   5.545  5
+M       2049.5   6.430  5
+M       2050.0   6.302  5
+M       2050.5   6.421  5
+M       2051.0   6.523  5
+M       2051.5   6.359  5
+...
+M       2096.7   6.439  5
+M       2097.2   6.167  5
+M       2097.7   6.414  5
+M       2098.2   6.593  5
+M       2098.7   6.312  5
+M       2099.2   6.515  5
+M       2099.7   6.494  5
+M       2100.2   6.892  5      
+```
 
    In this example, the turbidity increased from ~0.5 to ~6.5 after inoculation.
 
