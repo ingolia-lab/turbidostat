@@ -144,7 +144,7 @@ histsa <- hist(resFoaSA$log2FoldChange, breaks=bins, plot=FALSE)
 
 pdf(sprintf("%s/Fig5a-foa-hist.pdf", datadir), width=6, height=4, useDingbats=FALSE)
 plot(histall$mids, histall$density, 
-     type="s", col="black", lwd=2, 
+     type="s", col="#999999", lwd=2, 
      ylim=c(0, 1.1*max(histall$density, histwt$density)),
      ylab=NA, yaxt="n",
      xlab="Fitness")
@@ -153,8 +153,8 @@ lines(histsa$mids, histsa$density, type="s", lwd=2, col="#7570b3")
 lines(histns$mids, histns$density, type="s", lwd=2, col="#e7298a")
 legend(x="topleft", bty="n", lwd=2,
        legend=c("All", "Wild-type", "Nonsense", "Splice"),
-       col=c("black", "#1f78b4", "#e7298a", "#7570b3"),
-       text.col=c("black", "#1f78b4", "#e7298a", "#7570b3"))
+       col=c("#999999", "#1f78b4", "#e7298a", "#7570b3"),
+       text.col=c("#656565", "#1f78b4", "#e7298a", "#7570b3"))
 dev.off()
 
 ## Group barcodes representing single-nucleotide changes
