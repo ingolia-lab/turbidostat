@@ -294,6 +294,10 @@ resChx24WT <- resChx24[row.names(resChx24) %in% perfectBC,]
 
 write.csv(x=resChx24Viable, file=sprintf("%s/Fig6a-chx-dist.csv", datadir))
 
+## Threshold for CHX resistance = highest value seen in silent single-base mutation
+highestSilentChx <- max(singleNuc[singleNuc$category %in% c("Synonymous", "Intronic"),"resist24"])
+resistantPep <- singlePep[singlePep$resist24 > highestSilentChx,]
+
 ## Plot KDEs of CHX fitness for different classes
 lb=min(resChx24Viable$log2FoldChange, na.rm=TRUE)
 ub=max(resChx24Viable$log2FoldChange, na.rm=TRUE)
@@ -319,11 +323,22 @@ legend(x="topright", lwd=2, bty="n",
        col=c("#aaaaaa", "#d95f02", "#1b9e77", "#7570b3"),
        legend=c("All viable", "Sick", "Healthy", "Wildtype"),
        text.col=c("#aaaaaa", "#d95f02", "#1b9e77", "#7570b3"))
-dev.off()
 
-## Threshold for CHX resistance = highest value seen in silent single-base mutation
-highestSilentChx <- max(singleNuc[singleNuc$category %in% c("Synonymous", "Intronic"),"resist24"])
-resistantPep <- singlePep[singlePep$resist24 > highestSilentChx,]
+viableDens$y[viableDens$x >= highestSilentChx]
+
+xmax <- 5
+ymax <- 1.1 * max(viableDens$y[viableDens$x >= xmax],
+                  okayDens$y[okayDens$x >= xmax],
+                  wildtypeDens$y[wildtypeDens$x >= xmax],
+                  sickDens$y[sickDens$x >= xmax])
+
+plot(viableDens$x, viableDens$y, type="l", lwd=2, col="#cccccc",
+     xlab="CHX Fitness", ylab=NA, xlim=c(xmax,ub),
+     ylim=c(0,ymax), yaxt="n")
+lines(sickDens$x, sickDens$y, lwd=2, col="#d95f02")
+lines(okayDens$x, okayDens$y, lwd=2, col="#1b9e77")
+lines(wildtypeDens$x, wildtypeDens$y, lwd=2, col="#7570b3")
+dev.off()
 
 ## Pick most resistant substitution seen at each position
 resistPos <- aggregate(x=singlePep[,c("fitness", "resist24")],
