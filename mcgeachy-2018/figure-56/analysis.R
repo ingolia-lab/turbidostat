@@ -148,13 +148,13 @@ plot(histall$mids, histall$density,
      ylim=c(0, 1.1*max(histall$density, histwt$density)),
      ylab=NA, yaxt="n",
      xlab="Fitness")
-lines(histwt$mids, histwt$density, type="s", lwd=2, col="#1b9e77")
+lines(histwt$mids, histwt$density, type="s", lwd=2, col="#1f78b4")
 lines(histsa$mids, histsa$density, type="s", lwd=2, col="#7570b3")
 lines(histns$mids, histns$density, type="s", lwd=2, col="#e7298a")
 legend(x="topleft", bty="n", lwd=2,
        legend=c("All", "Wild-type", "Nonsense", "Splice"),
-       col=c("black", "#1b9e77", "#e7298a", "#7570b3"),
-       text.col=c("black", "#1b9e77", "#e7298a", "#7570b3"))
+       col=c("black", "#1f78b4", "#e7298a", "#7570b3"),
+       text.col=c("black", "#1f78b4", "#e7298a", "#7570b3"))
 dev.off()
 
 ## Group barcodes representing single-nucleotide changes
