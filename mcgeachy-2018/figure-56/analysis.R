@@ -201,6 +201,8 @@ singleNuc$category <- factor(ifelse(singleNuc$isnonsense, "Nonsense",
                              levels=c("Synonymous", "Missense", "Frameshift", "Nonsense", "Intronic", "Branch Pt", "Splice Acc"))
 
 write.csv(x=singleNuc, file=sprintf("%s/Fig5b-foa-singlenuc.csv", datadir))
+write.table(x=table(singleNuc$category), file=sprintf("%s/Fig5b-foa-singlenuc-categories.txt", datadir))
+write.table(x=table(seq(1143, 1542) %in% singleNuc$pos), file=sprintf("%s/Fig5b-foa-singlenuc-exon-coverage.txt", datadir))
 
 ## Define some thresholds based on silent & presumptive nulls
 ## N.B. T1535A removes only 3 amino acids and may not be null
@@ -253,6 +255,8 @@ singlePep <- cbind.data.frame(singlePep,
 singlePep$pssmDiff <- singlePep$pssmMut - singlePep$pssmWt
 
 write.csv(x=singlePep, file=sprintf("%s/Fig5c-foa-singlepep.csv", datadir))
+write.table(x=table(seq(16,148) %in% singlePep$aapos), file=sprintf("%s/Fig5c-foa-singlepep-coverage.txt", datadir))
+write.table(x=table(table(singlePep$aapos)), file=sprintf("%s/Fig5c-foa-singlepep-changes-per-pos.txt", datadir))
 
 cor(singlePep[,c("fitness", "resist24", "score", "pssmDiff")],
     singlePep[,c("score", "pssmWt", "pssmMut", "pssmDiff")],
