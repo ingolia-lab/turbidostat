@@ -84,6 +84,7 @@ handleTstat <- function(tstat) {
 
     nephPng <- sprintf("%s/neph-%s.png", wwwpath, tstat)
     pumpPng <- sprintf("%s/pump-%s.png", wwwpath, tstat)
+    pumpRecentPng <- sprintf("%s/pump-recent-%s.png", wwwpath, tstat)
 
     latest = max(tlog$time.s)
 
@@ -99,7 +100,13 @@ handleTstat <- function(tstat) {
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
     dev.off()
 
-    sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>",
+    png(filename=pumpRecentPng, width=800, height=600, res=300, pointsize=3)
+    plotGrowth(tlog[tlog$time.s > (max(tlog$time.s) - 60*60*4),])
+    title(main=sprintf("%s Pumping Recent", tstat),
+          sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
+    dev.off()
+
+    sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>\n<P> <IMG SRC=\"pump-recent%s.png\"> </P>",
             tstat, tstat)
 }
 
