@@ -107,7 +107,7 @@ handleTstat <- function(tstat) {
     dev.off()
 
     sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>\n<P> <IMG SRC=\"pump-recent%s.png\"> </P>",
-            tstat, tstat)
+            tstat, tstat, tstat)
 }
 
 tstats <- list.dirs(exptdir, full.names=FALSE, recursive=FALSE)
