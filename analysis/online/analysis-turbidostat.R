@@ -106,7 +106,7 @@ handleTstat <- function(tstat) {
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
     dev.off()
 
-    sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>\n<P> <IMG SRC=\"pump-recent%s.png\"> </P>",
+    sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>\n<P> <IMG SRC=\"pump-recent-%s.png\"> </P>",
             tstat, tstat, tstat)
 }
 
