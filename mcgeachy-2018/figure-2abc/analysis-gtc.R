@@ -49,6 +49,8 @@ plot(tmin$time.min / 60, tmin$pumpduty * 3600 / filltime,
 abline(v=seq(8*2,last/3600,8), col="#7570b380")
 rect(xleft=82, xright=94, ybottom=0.1, ytop=0.3, 
      col="#00000030", border="#000000b0", lwd=0.5)
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 zoom <- tmin[tmin$time.min >= 82*60 & tmin$time.min <= 94*60,]
@@ -69,6 +71,8 @@ plot(zoom$time.min / 60, zoom$pumpduty * 3600 / filltime,
      xlab="Time (hr)", ylab="Growth (1/hr)", 
      ylim=c(0.,0.35),yaxp=c(0,0.3,3))
 abline(v=88, col="#7570b380")
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 targs <- data.frame(targPpm = sort(unique(tlog$targPpm)))
@@ -97,6 +101,8 @@ plot(targs$targNH4, targs$growHr,
      xlab="[NH4] (mM)", ylab="Growth (1/hr)", yaxp=c(0,0.3,3), ylim=c(0,0.35))
 #lines(targs$targNH4, targs$monodFit,
 #      lwd=2, col="#d95f0280")
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 pdf("Fig2c-response-inset.pdf", width=3, height=3, useDingbats=FALSE)
@@ -106,5 +112,7 @@ plot(targs$targNH4, targs$growHr,
      xlim=c(0,0.9), yaxp=c(0,0.3,1), ylim=c(0,0.35))
 #abline(v=0.135, lwd=2, col="#1b9e7780")
 abline(a=coef(chemofit)[[1]], b=coef(chemofit)[[2]], lwd=2, col="#1b9e7780")
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 

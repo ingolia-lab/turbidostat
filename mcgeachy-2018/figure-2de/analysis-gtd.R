@@ -40,6 +40,8 @@ plot(tmin$time.min / 60, tmin$pumpduty * 3600 / filltime,
      type="l", lwd=2, col="#1b9e77",
      xlab="Time (hrs)", ylab="Growth (1/hr)", ylim=c(0,0.35), yaxp=c(0,0.3,3))
 abline(v=seq(10,40,10), col="#7570b380")
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 targs <- data.frame(target = sort(unique(tmin$target)))
@@ -62,6 +64,8 @@ plot(targs$targNeph * 2.5, targs$growHr,
      xlab="Density (M cells / ml)", ylab="Growth (1/hr)", 
      xaxp=c(0,5,2), xlim=c(0,6.5),
      yaxp=c(0,0.3,3), ylim=c(0,0.35))
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 fit <- lm(growHr ~ targNeph, data=targs[2:5,])

@@ -52,6 +52,8 @@ abline(v=seq(4,last/60,16), col="#7570b380")
 abline(v=seq(16,last/60,16), col="#7570b380")
 points(tminpoint$time.min / 60, rep.int(0.33, times=nrow(tminpoint)),
        type="p", pch=21, cex=0.67, col="black", bg=tminpoint$color)
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
 pdf("Fig2g-phase.pdf", width=3.5, height=3.5, useDingbats=FALSE)
@@ -63,5 +65,7 @@ plot(tmin[tmin$time.min>16*60,]$currPpm * 4 / 1e6,
      ylim=c(0,0.35), yaxp=c(0,0.3,3))
 points(tminpoint$currPpm * 4 / 1e6, tminpoint$pumpduty * 3600 / filltime,
        type="p", pch=21, cex=1, col="black", bg=tminpoint$color)
+axis(side=4, at=log(2)/seq(2,8), labels=seq(2,8))
+axis(side=4, at=log(2)/seq(2.5,7.5), labels=NA, tcl=-0.25)
 dev.off()
 
