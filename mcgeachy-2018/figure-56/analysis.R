@@ -354,6 +354,7 @@ resistPos$colidx <- ifelse(resistPos$resist24 < highestSilentChx, 1,
 resistPos$color <- resistpal[resistPos$colidx]
 
 ## Plot resistance strength by position
+write.csv(x=resistantPep, file=sprintf("%s/Fig6b-chx-by-subst-resistant.txt", datadir))
 write.csv(x=resistPos, file=sprintf("%s/Fig6b-chx-by-aapos.txt", datadir))
 
 pdf(sprintf("%s/Fig6b-chx-by-aapos.pdf", datadir), width=6, height=4, useDingbats=FALSE)
