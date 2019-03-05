@@ -1,0 +1,53 @@
+Name,Purpose,Details,Sequence
+NI-NI-38,Fragment library amplification,Primes on TruSeq Read 2 primer sequence and adds Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATCGTCAGGTGACTGGAGTTCAGACGTGTGCTCTTCCG
+NI-AM-197,Fragment recombinational cloning,Primes on TruSeq Read 1 primer sequence and adds homology to the PGK1 promoter upstream of the AscI site in pNTI347,GAAGTAATTATCTACTTTTTACAACAAATTAATTAAAATGACACTCTTTCCCTACACGAC
+NI-AM-199,Fragment recombinational cloning,Primes on TruSeq Read 2 primer sequence and adds homology to the λN sequence downstream of the AscI site in pNTI347,GTTTCTCAGCGCGACGCTCACGTCGTCGTGTTTGTGCGTCGTGACTGGAGTTCAGACGTG
+NI-AM-226,Fragment selection library sequencing,"Reverse primer for first, outer PCR; primes within λN sequence in pNTI347",GTTTGCAGCTTTCCATTGAGCTTGTTTCTCAGC
+NI-AM-227,Fragment selection library sequencing,"Forward primer for first, outer PCR; primes within PGK1 promoter sequence in pNTI347",CGTCACACAACAAGGTCCTAGCGACG
+NI-AM-228,Fragment selection library sequencing,Primes on TruSeq Read 1 primer sequence in plasmid library and adds Illumina P5 sequence,AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT
+NI-NI-3,Fragment selection library sequencing,Primes on TruSeq Read 1 primer sequence in plasmid library and adds Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATAGTCGTGTGACTGGAGTTCAGACGTGTGCTCTTCCG
+NI-NI-880,Cloning RPL28(KpnI),Primes 583 bp upstream of RPL28 CDS and adds flanking BamHI restriction site and homology to vector,ACAGGCAAGCGATCCGTCCGGATCCAAATTATGCCACCGTTACC
+NI-NI-881,Cloning RPL28(KpnI),"Primes within RPL28 intron facing backwards, and introduces a KpnI site; complementary to NI-NI-882",TAATTGCGCTCTCTACAACCATTTGGTACCATACAGCGATAATTAGTGCTTTCCATAATC
+NI-NI-882,Cloning RPL28(KpnI),"Primes within RPL28 intron facing forwards, and introduces a KpnI site; complementary to NI-NI-881",GATTATGGAAAGCACTAATTATCGCTGTATGGTACCAAATGGTTGTAGAGAGCGCAATTA
+NI-NI-883,Cloning RPL28(KpnI),Primes 145 bp downstream of RPL28 cis and adds flanking AscI restriction site and homology to vector,AATTCGCTTATTTAGAAGTGGCGCGCCTTTTAAAAAAGCGATAAAAGCGTTGG
+NI-NI-893,Sequencing RPL28,Sanger sequencing primer within RPL28,ACCACACACGAAAATCCTGTGAT
+NI-NI-894,Sequencing RPL28,Sanger sequencing primer within RPL28,AGGTTCATTCCACCTCGTCTCT
+NI-NI-895,Sequencing RPL28,Sanger sequencing primer within RPL28,ACACCAGGGACCCACACATTAC
+NI-NI-896,Sequencing RPL28,Sanger sequencing primer within RPL28,AGCTGATTGACATTCTCCTGTACC
+NI-NI-897,Sequencing RPL28,Sanger sequencing primer within RPL28,ACTGTCTACTCATTTTACGGCT
+NI-NI-898,Sequencing RPL28,Sanger sequencing primer within RPL28,TGGTCTCTCTTGTCTTCTGGGA
+NI-NI-899,Sequencing RPL28,Sanger sequencing primer within RPL28,GCTGCTGGTGGTGTTGTTGAAT
+NI-NI-900,Sequencing RPL28,Sanger sequencing primer within RPL28,GGGACGAGGCAAGCTAAACAGA
+NI-NI-914,Deleting RPL28,Primes on K. lactis LEU2 and adds homology to S. cerevisiae genome at RPL28 locus,acacaagaaataagtatgaggtagtttgctctcgaaaaaaccagctgaagcttcgtacgc
+NI-NI-915,Deleting RPL28,Primes on K. lactis LEU2 and adds homology to S. cerevisiae genome at RPL28 locus,CTATGTTTATATATGGATTTTGAAAATCTTTTAAAAAAgcataggccactagtggatctg
+NI-NI-901,Verifying rpl28Δ::KlLEU2,Primes 62 bp from the end of the K. lactis LEU2 marker facing forward (outward),CTAACTCTACCACTGAGGTTGG
+NI-NI-905,Verifying rpl28Δ::KlLEU2,Primes on the S. cerevisiae genome outside of the homology arms used to delete RPL28,tgccgccaatataatattaacacac
+NI-NI-908,Verifying rpl28Δ::KlLEU2,Primes on the S. cerevisiae genome outside of the homology arms used to delete RPL28,CGCTAACTGATAATTTGGGTGAGG
+NI-NI-912,Verifying rpl28Δ::KlLEU2,Primes 110 bp from the beginning of the K. lactis LEU2 marker facing backward (outward),CAGCGTTTGAAATTTGACGAGTC
+NI-NI-954,Cloning RPL28 exon 1-(Mfe/Nhe),Primes at the beginning of ADH1 terminator in an ARS/CEN plasmid with S. pombe HIS5 marker and adds an NheI site,agctagcACTTCTAAATAAGCGAATTTC
+NI-NI-955,Cloning RPL28 exon 1-(Mfe/Nhe),Primes within the RPL28 intron facing backwards and adds an MfeI site,gtcaattgATACAGCGATAATTAGTGC
+NI-NI-886,Mutagenizing RPL28 exon 2,Primes within the RPL28 intron facing forward,GCACTAATTATCGCTGTATGGTACC
+NI-NI-913,Mutagenizing RPL28 exon 2,"Primes at the end of the RPL28 3’ UTR and terminator, facing backward",GCGATAAAAGCGTTGGGATC
+NI-NI-952,Mutagenizing RPL28 exon 2,"Primes within the RPL28 intron facing forward, just downstream of NI-NI-886, and adds a flanking MfeI site",ATACAATTGAAATGGTTGTAGAGAGCGC
+NI-NI-953,Mutagenizing RPL28 exon 2,"Primes at the end of RPL28 fragment facing backwards and adds a random barcode, partial TruSeq Read 1, and NheI site",TATGCTAGCACGACGCTCTTCCGATCTNNNNNNNNNNNNNNNNGCGATAAAAGCGTTGGG
+NI-NI-956,RPL28 barcode counting and genotyping,"Primes on partial TruSeq Read 1 sequence, adds complete TruSeq Read 1 sequence and Illumina P5 primer",AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC
+NI-NI-957,RPL28 barcode genotyping,Primes at the end of the Nextera Read 2 Adapter and adds Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATGTCTCGTGGGCTCGG
+NI-NI-958,RPL28 barcode genotyping,"Primes at the end of the Nextera Read 1 Adapter, but contains no flanking Illumina adapter sequence",AGATCGCTCGTCGGCAGCGTC
+NI-NI-945,RPL28 barcode counting,"Primes at the end of the RPL28 fragment facing the barcode, and adds flanking TruSeq Read 2 / Index Read sequence",GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTGATCCCAACGCTTTTATCGC
+NI-NI-798,RPL28 barcode counting,Primes on TruSeq Read 1 / Illumina P5 sequence,AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC
+NI-NI-799,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 1 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTG
+NI-NI-951,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 12 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATTACAAGGTGACTGGAGTTCAGACGTGTG
+NI-NI-999,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 13 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATTGTTGACTGTGACTGGAGTTCAGACGTGTG
+NI-NI-1000,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 14 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATACGGAACTGTGACTGGAGTTCAGACGTGTG
+NI-NI-1001,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 15 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATTCTGACATGTGACTGGAGTTCAGACGTGTG
+NI-NI-1002,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 16 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATCGGGACGGGTGACTGGAGTTCAGACGTGTG
+NI-NI-1003,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 18 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATGTGCGGACGTGACTGGAGTTCAGACGTGTG
+NI-NI-1004,RPL28 barcode counting,Primes on TruSeq Read 2 / Index Read sequence and adds TruSeq LT Index 19 along with Illumina P7 sequence,CAAGCAGAAGACGGCATACGAGATCGTTTCACGTGACTGGAGTTCAGACGTGTG
+NI-NI-1005,RPL28 variant reconstruction,"Primes within the RPL28 intron facing forward, spanning the MfeI site in pNTI619",GGAAAGCACTAATTATCGCTGTATcAATTGAAATGGTTGTAGAGAGCGC
+NI-NI-1006,RPL28 variant reconstruction,"Primes at the end of the RPL28 fragment facing backwards, spanning the NheI site in pNTI619",TAAGAAATTCGCTTATTTAGAAGTgctagcGCGATAAAAGCGTTGGGATC
+NI-NI-1007,RPL28 variant reconstruction,Forward primer introducing Q38P in RPL28,GGCCGGTGGTCcACATCACCACAGAATTAACATGG
+NI-NI-1008,RPL28 variant reconstruction,Reverse primer introducing Q38P in RPL28,TGTGGTGATGTgGACCACCGGCCATACC
+NI-NI-1009,RPL28 variant reconstruction,Forward primer introducing K55M in RPL28,TTATTTCGGTAtGGTTGGTATGAGATACTTCCACAAG
+NI-NI-1010,RPL28 variant reconstruction,Reverse primer introducing K55M in RPL28,CATACCAACCaTACCGAAATAACCTGGATGGT
+NI-NI-1011,RPL28 variant reconstruction,Forward primer introducing H39L in RPL28,CGGTGGTCAAttgCACCACAGAATTAACATGGATAAATACC
+NI-NI-1012,RPL28 variant reconstruction,Reverse primer introducing H39L in RPL28,TTCTGTGGTGcaaTTGACCACCGGCCATAC
