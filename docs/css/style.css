@@ -1,0 +1,206 @@
+body,
+html {
+margin:0;
+padding:0;
+color:#222;
+background:#f6f6ff;
+font-family: "Gill Sans", "Trebuchet MS", Calibri, sans-serif;
+}
+
+#main a:link { color: #685860; text-decoration: none; }
+#main a:visited { color: #586068; text-decoration: none; }
+#main a:hover { color: #586068; text-decoration: underline; }
+
+#outer { background: #f6f6ff; width: 800px; margin:0 auto; }
+
+#main { background: #f6f6ff; width: 600px; float: right; padding: 1em; }
+
+/* Main left-hand navigation bar */
+
+#navbar { background: #f6f6ff; float: left; width: 120px; float; left; padding: .5em; }
+#navbar ul { list-style-type:none; margin:0; padding:0; }
+#navbar a { 
+  display:block;
+  width: 120px;
+  padding: .5em; 
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+  font-size: large;
+}
+#navbar a:link,a:visited { color: #303840; text-decoration: none; }
+#navbar a:hover { color: #202830; text-decoration: none; background: #e0e0f0; }
+
+/* Subsidiary top horizontal navigation bar */
+#subnavbar { background: #f6f6ff; float: left; width: 600px; padding: 0; list-style: none; }
+#subnavbar { border-bottom:3px solid #505050; }
+#subnavbar ul { list-style-type: none; margin: 0; padding: 0; }
+#subnavbar li { float: left; }
+#subnavbar a {
+  display:block;
+  width: 120px;
+  padding: 5px; 
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+  font-size: small;
+  border-left: 1px #555 solid;
+  border-right: 1px #555 solid;
+  border-top: 1px #555 solid;
+}
+#subnavbar a:link,a:visited { color: #303840; text-decoration: none; }
+#subnavbar a:hover { color: #202830; text-decoration: none; background: #e0e0f0; }
+
+/* Section headers */
+div.section-header {
+  width: 100%;
+  background: #d0d0e0;
+  padding: .2em;
+  margin: .2em 0 .2em 0;
+}
+
+div.section-header p {
+  font-variant: small-caps;
+  font-size: large;
+  margin: 0 0 0 0;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+}
+
+/* Person headers */
+div.person-header {
+  width: 100%;
+  background: #d0d0e0;
+  padding: .2em;
+  margin: .2em 0 .2em 0;
+}
+
+.person-left {
+  font-variant: small-caps;
+  font-size: large;
+  margin: 0 0 0 0;
+  float: left;
+  width: 46%;
+  padding: 0% 0% 0% 2%;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+}
+
+.person-right {
+  font-variant: small-caps;
+  margin: 0 0 0 0;
+  float: right;
+  width: 46%;
+  padding: 0% 2% 0% 0%;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: right;
+}
+
+.alum-left {
+  font-variant: small-caps;
+  font-size: large;
+  margin: 0 0 0 0;
+  float: left;
+  width: 28%;
+  padding: 0% 0% 0% 2%;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+}
+
+.alum-middle {
+  font-variant: small-caps;
+  margin: 0 0 0 0;
+  float: left;
+  width: 27%;
+  padding: 0% 2% 0% 0%;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+}
+
+.alum-right {
+  font-variant: small-caps;
+  margin: 0 0 0 0;
+  float: right;
+  width: 37%;
+  padding: 0% 2% 0% 0%;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: right;
+}
+
+
+/* Software entries */
+.software-desc {
+  float: left; width: 400px; margin: 0 0 20px 0; padding: 0;
+}
+.software-links {
+  float: right; width: 200px; margin: 0 0 20px 0; padding: 0; text-align: right;
+}
+
+/* Header */
+
+#header {
+  background: #d0d0e0;
+  clear:both;
+  float:left;
+  width:100%;
+  padding: 0 0 .5em 0;
+  margin: 0;
+  border-bottom:3px solid #505050;
+  font-variant: small-caps;
+}
+#header p,
+#header h1,
+#header h2,
+#header h3,
+#header h4 {
+  padding:.25em .25em 0 .25em;
+  margin:0;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left
+}
+#header a:link { color: #303840; text-decoration: none; }
+#header a:visited { color: #202830; text-decoration: none; }
+#header a:hover { color: #404850;  text-decoration: underline; }
+
+/* Footer */
+
+#footer {
+  background: #d0d0e0;
+  clear:both;
+  float:left;
+  width:100%;
+  padding: .2em 0 .2em 0;
+  border-top: 3px solid #505050;
+}
+#footer p {
+  padding:.2em .2em 0 .2em;
+  margin:0;
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+}
+#footer div {
+  font-family: "Century Gothic", "Avant Garde", "Avant Garde Gothic", "URW Gothic L", sans-serif;
+  font-style: normal;
+  text-decoration: none; 
+}
+#footer a:link { color: #303840; text-decoration: none; }
+#footer a:visited { color: #202830; text-decoration: none; }
+#footer a:hover { color: #404850;  text-decoration: underline; }

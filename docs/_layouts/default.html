@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ page.title }}</title>
+    <!-- link to main stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </head>
+  <body>
+    <div id="outer">
+      <div id="header">
+         <div style="float: left; width: 369px; padding: 10px 10px 0 10px;">
+           <h1><a href="index.html">Ingolia Lab Turbidostat</a></h1>
+           <h3><a href="http://mcb.berkeley.edu/">Dept of Molecular and Cell Biology</a></h3>
+           <h3><a href="http://www.berkeley.edu">University of California, Berkeley</a></h3>
+         </div>
+         <div style="float: right; width: 391px; padding: 10px 10px 0 10px;">
+           <img src="banner.png">
+         </div>
+      </div>
+      <div id="navbar">
+        <ul>
+	  <li><a href="operation.html">OPERATION</a></li>
+	  <li><a href="construction.html">CONSTRUCTION</a></li>
+        </ul>
+      </div>
+      <div id="main">
+      
+      {{ content }}
+      
+      </div>
+    </div>
+  <footer>
+  </footer>
+</body>
+</html>
