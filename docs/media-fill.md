@@ -25,7 +25,7 @@ The nominal capacity of the Sterivex filter is 2 liters but with "clean" media (
 ---
 ### Replenishing the Media Reservoir
 
-The reservoir can be refilled during operation by attaching a new filter aseptically and pumping in new media while the system is operating.
+The reservoir can be refilled during operation by attaching a new filter aseptically and pumping in new media while the system is operating. 
 
 1. Spray the media fill connector (with either a cap or a used filter attached) with 70% ethanol.
 1. Detach the media fill connector and attach the outlet of a new Sterivex filter.

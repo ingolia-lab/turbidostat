@@ -4,11 +4,40 @@ title: Turbidostat Construction -- Electronics
 ---
 ## Controller Electronics
 
+The controller electronics can be assembled entirely by through-hole
+soldering. Several excellent soldering tutorials can be found online,
+including those from
+[Adafruit](https://learn.adafruit.com/adafruit-guide-excellent-soldering),
+[SparkFun](https://learn.sparkfun.com/tutorials/how-to-solder-through-hole-soldering),
+and [Instructables](https://www.instructables.com/id/How-to-Solder-Basic-Soldering-Guide/).
+
+Most components can be assembled with no special considerations.
+Exceptions are noted below, and should be handled in the order
+described. In general, the names of components are printed on the
+circuit board. Resistors (R1, &c.) and most capacitors (C1, &c.) are
+symmetric, and so either lead can be placed in either hole. A few
+capacitors (C4 and C10), along with all other components, must be
+installed in specific orientations indicated by markings on the
+circuit board, which should line up with markings or other features of
+the component packages.
+
 ### Ordering Information
 
-The printed circuit board design files can be found in `design/circuit/`. The `band-single-feather.brd` file can be uploaded directly to printed circuit board fabricators such as [Oshpark](https://oshpark.com). Order it as a two-layer board, with a 63 mil (1.6 mm) thickness FR4 board with 1 oz copper.
+The printed circuit board design files can be found in
+[`design/circuit/`](https://www.github.com/ingolia-lab/turbidostat/tree/master/design/circuit). The
+[`band-single-feather.brd`](https://www.github.com/ingolia-lab/turbidostat/tree/master/design/circuit/band-single-feather.brd) file can be uploaded directly to printed
+circuit board fabricators such as
+[Oshpark](https://oshpark.com). Order it as a two-layer board, with a
+63 mil (1.6 mm) thickness FR4 board with 1 oz copper.
 
-The  list of components needed for circuit board assembly can be found in `design/circuit/` as well. The `band-single-feather-bom.csv` file is a list of each component with ordering information. The `band-single-feather-bom-order.txt` file is a simplified list of component quantities and part numbers that can be uploaded directly.
+The list of components needed for circuit board assembly can be found
+in
+[`design/circuit/`](https://www.github.com/ingolia-lab/turbidostat/tree/master/design/circuit)
+as well. The [`band-single-feather-bom.csv`](https://www.github.com/ingolia-lab/turbidostat/tree/master/design/circuit/band-single-feather-bom.csv) file is a list of each
+component with ordering information. The
+[`band-single-feather-bom-order.txt`](https://www.github.com/ingolia-lab/turbidostat/tree/master/design/circuit/band-single-feather-bom-order.txt) file is a simplified list of
+component quantities and part numbers that can be uploaded directly to
+[DigiKey](https://www.digikey.com).
 
 #### Equipment
 
@@ -31,8 +60,6 @@ The  list of components needed for circuit board assembly can be found in `desig
 * Heat shrink tubing
 
 ### Assembly
-
-The controller electronics can be assembled entirely by through-hole soldering. Most components can be assembled with no special considerations. Exceptions are noted below, and should be handled in the order described.
 
 1. **Nephelometer LED** The SFH 4547 IR LED (Osram) is connected to the controller by hookup wire on screw terminals.
 

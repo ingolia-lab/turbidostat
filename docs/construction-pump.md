@@ -14,7 +14,9 @@ title: Turbidostat Construction -- Electronics
   
     This pump is recommended as a replacement for the 9K in new designs. The tubing and mounting appear compatible with the 9K. The pumping rate is slightly faster: 55 µl per revolution as opposed to 48 µl per revolution with the Boxer 9K, and the same angular speed.
 
-* The motor is mounted on a 3D printed piece in the `motor-mount.stl` file located in  `design/housing`. 
+* The motor is mounted on a 3D printed piece in the
+  [`motor-mount.stl`](https://github.com/ingolia-lab/turbidostat/tree/master/design/housing/motor-mount.stl)
+  file located in [`design/housing`](https://github.com/ingolia-lab/turbidostat/tree/master/design/housing).
 
 * Two-circuit screw-connector barrier strip: Molex Eurostyle 39100-1902, Digi-Key WM12408-ND
 

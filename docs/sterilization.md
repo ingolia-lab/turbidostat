@@ -4,7 +4,8 @@ title: Turbidostat Operation -- Sterilization
 ---
 ### Sterilizing the Media Reservoir
 
-The media reservoir can be sterilized in advance.
+The media reservoir can be sterilized in advance. Once sterilized, the
+reservoir can also be [filled](./media-fill.html) in advance.
 
 1. Place a large stir bar into the media bottle if needed
 1. Loosely fit the reservoir cap onto the reservoir bottle and ensure that the media delivery tubing within the bottle reaches the bottom
@@ -19,7 +20,9 @@ The media reservoir can be sterilized in advance.
 
 ### Sterilizing the Growth Chamber
   
-The growth chamber can be sterilized in advance of an experiment.  The sterilized growth chamber can be placed in a warm room in order to equilibrate the temperature prior to use. 
+The growth chamber can be sterilized in advance of an experiment.
+Once sterilized, the growth chamber can be placed in a warm room in
+order to equilibrate the temperature prior to use.
   
 1. Fill the humidifier flask with >200 ml deionized water
 1. Insert the stopper into the flask and close the air inlet with a female Luer cap

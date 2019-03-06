@@ -6,7 +6,7 @@ title: Turbidostat Construction -- Electronics
 
 ### Ordering information
 
-The housing is assembled from two separate pieces that are produced by 3D printing, painted black, and then screwed together. Files for 3D printing are located in `design/housing`. 
+The housing is assembled from two separate pieces that are produced by 3D printing, painted black, and then screwed together. Files for 3D printing are located in [`design/housing`](https://github.com/ingolia-lab/turbidostat/tree/master/design/housing). 
 
 * The `feather-nephel-housing.stl` file prints an enclosed box for the printed circuit board with a square hole for the photodetector. On filament deposition printers, put the widest face of the box on the build plate, with the other walls extending vertically.
 
