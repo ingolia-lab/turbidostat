@@ -1,6 +1,8 @@
 # Documentation for the Ingolia lab turbidostat
 
-The [`doc`](doc) directory contains documentation for [building](doc/construction.md) and [operating](doc/operation.md) the turbidostat.
+[Visit the homepage](https://ingolia-lab.github.io/turbidostat/) for a guide to the turbidostat system.
+
+The [`docs`](docs) directory contains documentation for [building](docs/construction.md) and [operating](docs/operation.md) the turbidostat.
 
 The [`design`](design) directory contains source files needed to build the turbidostat. Within this directory,
 * The [`circuit`](design/circuit) directory contains printed circuit board design files and a list of components
