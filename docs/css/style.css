@@ -17,11 +17,11 @@ font-family: "Lato", sans-serif;
 
 /* Main top horizontal navigation bar */
 
-#navbar { background: #f6f6ff; float: left; width: 800px; float; left; padding: 4px; }
+#navbar { background: #f6f6ff; float: left; width: 800px; float; left; padding: 4px 0 4px 0; }
 #navbar { border-bottom:3px solid #505050; }
 #navbar a { 
   display:inline-block;
-  width: 190px;
+  width: 191px;
   padding: 1px;
   margin: 1px; 
   font-family: "Questrial", sans-serif;
@@ -62,7 +62,7 @@ div.section-header p {
   clear:both;
   float:left;
   width:100%;
-  padding: 0 0 .5em 0;
+  padding: 0 0 4px 0;
   margin: 0;
   border-bottom:3px solid #505050;
 }
