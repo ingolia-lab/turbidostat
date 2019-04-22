@@ -9,6 +9,6 @@ DEST="USER@HOST:PATH/TO/RUNS"
 
 while true
 do
-    rsync -rvz "./" "${DEST}"
+    rsync -rvzu "./" "${DEST}"
     sleep 60
 done
