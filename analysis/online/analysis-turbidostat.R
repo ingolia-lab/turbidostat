@@ -1,42 +1,44 @@
 runbase <- "TestRuns"
 wwwpath <- "TestWWW"
 
-library("RColorBrewer")
-
 prefix <- "^T"
-filltime <- 800 # seconds of pumping
+filltime <- 800 # seconds of pumping to fill
 voltime <- 0.252 * 60 * 60  # ml / hour of pumping
+recentfit <- 1  # number of hours to use for recent pump rate fit
+recentplot <- 4  # number of hours to plot on recent pump rate graph
 
-totalPumpTime <- 0
-
-## Grep out one turbidostat header followed by all turbidostat data lines
-## Direct into a temporary file and return the temporary filename
-extractTlog <- function(screenfile) {
-  print(screenfile)
-  tlogfile <- tempfile(pattern="tlog", tmpdir=dirname(screenfile), fileext=".txt")
-  
-  system(sprintf("grep \'%s\' \'%s\' | grep time.s | head -n1 > %s",
-                 prefix, screenfile, tlogfile))
-  system(sprintf("grep \'%s\' \'%s\' | grep -v time.s >> %s",
-                 prefix, screenfile, tlogfile))
-  
-  tlogfile
-}
-
-readTlog <- function(tlogfile) {
-    tlog <- read.delim(tlogfile)
-    tlog$pumptime.s <- tlog$pumptime.s - min(tlog$pumptime.s)
-    tlog
-}    
+library("RColorBrewer")
 
 ## Extract and read turbidostat data
 getTlog <- function(screenfile) {
-    tlogfile <- extractTlog(screenfile)
-    tlog <- readTlog(tlogfile)
-    file.remove(tlogfile)
+  ## Grep out one turbidostat header followed by all turbidostat data lines
+  ## Direct into a temporary file and return the temporary filename
+  extractTlog <- function(screenfile) {
+    print(screenfile)
+    tlogfile <- tempfile(pattern="tlog", tmpdir=dirname(screenfile), fileext=".txt")
+    
+    system(sprintf("grep \'%s\' \'%s\' | grep time.s | head -n1 > %s",
+                   prefix, screenfile, tlogfile))
+    system(sprintf("grep \'%s\' \'%s\' | grep -v time.s >> %s",
+                   prefix, screenfile, tlogfile))
+    
+    tlogfile
+  }
+  
+  ## Read turbidostat log (created by extractTlog) into a data.frame
+  readTlog <- function(tlogfile) {
+    tlog <- read.delim(tlogfile)
+    tlog$pumptime.s <- tlog$pumptime.s - min(tlog$pumptime.s)
     tlog
+  }    
+  
+  tlogfile <- extractTlog(screenfile)
+  tlog <- readTlog(tlogfile)
+  file.remove(tlogfile)
+  tlog
 }
 
+## Plot cell density (nephelometry) data from a tlog to the current device
 plotNeph <- function(tlog) {
     highest <- max(tlog$neph/tlog$gain, tlog$target/tlog$gain)
     plot(tlog$time.s / 3600, tlog$neph / tlog$gain,
@@ -46,28 +48,28 @@ plotNeph <- function(tlog) {
     abline(h=tlog$target/tlog$gain, col=rgb(231,41,138,154,maxColorValue=255))
 }    
 
+## Plot pumping = dilution = growth data from a tlog to the current device
+## Calculates a fit line for the most recent hour (cf recentfit) to estimate rate
 plotGrowth <- function(tlog) {
-    tlogRecent <- tlog[tlog$time.s > (max(tlog$time.s) - 60*60),]
+    tlogRecent <- tlog[tlog$time.s > (max(tlog$time.s) - recentfit * 3600),]
     tlogFit <- lm(tlogRecent$pumptime.s ~ tlogRecent$time.s)
     kgrow <- tlogFit$coefficients[[2]] / filltime
-    tdbl <- log(2) / (kgrow * 60*60)
+    tdbl <- log(2) / (kgrow * 3600)
     vtime <- voltime * tlogFit$coefficients[[2]]
 
     pumptime <- max(tlog$pumptime.s)
 
-    totalPumpTime <<- totalPumpTime + pumptime + filltime
-    
     print(sprintf("[[1]] = %0.3f, [[2]] = %0.3f\n", coef(tlogFit)[[1]], coef(tlogFit)[[2]]))
     
-    plot(tlog$time.s / (60*60), tlog$pumptime.s / filltime,
+    plot(tlog$time.s / (3600), tlog$pumptime.s / filltime,
          type="l", lwd=2, 
          xlab="Time [hrs]", ylab="Pump [vol]")
-    lines(tlog$time.s / (60*60),
+    lines(tlog$time.s / (3600),
           (coef(tlogFit)[[1]] + tlog$time.s * coef(tlogFit)[[2]]) / filltime,
           col=rgb(231,41,138,154,maxColorValue=255))
     legend(x="topleft", bty="n",
-           legend=sprintf("duty = %0.3f\nk = %0.2e s^-1\nTdbl = %0.2f hrs\n%0.0f ml/hr",
-                          coef(tlogFit)[[2]], kgrow, tdbl, vtime),
+           legend=sprintf("last %0.1f hours\nduty = %0.3f\nk = %0.2e s^-1\nTdbl = %0.2f hrs\n%0.0f ml/hr",
+             recenttime, coef(tlogFit)[[2]], kgrow, tdbl, vtime),
            lwd=2, col=rgb(231,41,138,154,maxColorValue=255))
     axis(side=4, at=c(0, pumptime / filltime),
          labels=sprintf("%0.0f ml",
@@ -75,6 +77,7 @@ plotGrowth <- function(tlog) {
                           (filltime + pumptime) * (voltime / 3600))))
 }
 
+## Generate turbidostat plots 
 plotTstat <- function(names) {
     tlog <- getTlog(names$screenlog)
 
@@ -98,7 +101,7 @@ plotTstat <- function(names) {
     
     pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
     png(filename=pngtmp, width=800, height=600, res=300, pointsize=3)
-    plotGrowth(tlog[tlog$time.s > (max(tlog$time.s) - 60*60*4),])
+    plotGrowth(tlog[tlog$time.s > (max(tlog$time.s) - recentplot*3600),])
     title(main=sprintf("%s Pumping Recent", names$display),
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
     dev.off()
@@ -156,6 +159,17 @@ screenlogAnalysis <- function(screenlog) {
   names
 }
 
+tstatEntry <- function(names) {
+  lastupd <- ifelse(names$updateTime > Sys.time() - 300,
+                    "<i>RUNNING</i>",
+                    format.POSIXct(names$updateTime))
+
+  sprintf("<a href=\"%s\">%s (%s)</a>",
+          basename(names$html),
+          names$display,
+          lastupd)
+}
+
 while (TRUE) {
   screenlogs <- list.files(runbase, pattern="screenlog.0", full.names=TRUE, recursive=TRUE)
   
@@ -167,7 +181,7 @@ while (TRUE) {
   conn <- file(sprintf("%s/index.html", wwwpath))
   writeLines(c(htmlPrefix("Turbidostat Runs"),
                "<UL>",
-               sapply(runs, function(r) { sprintf("<LI><A href=\"%s\">%s</A>", basename(r$html), r$display) }),
+               sapply(runs, function(r) { sprintf("<LI>%s", tstatEntry(r)) }),
                "</UL>",
                htmlSuffix()),
              conn)
