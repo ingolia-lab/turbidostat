@@ -80,32 +80,36 @@ plotTstat <- function(names) {
 
     latest = max(tlog$time.s)
 
-    png(filename=names$nephPng, width=800, height=400, res=300, pointsize=3)
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    png(filename=pngtmp, width=800, height=400, res=300, pointsize=3)
     plotNeph(tlog)
     title(main=sprintf("%s Turbidity", names$display),
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))
     dev.off()
+    file.rename(from=pngtmp, to=names$nephPng)
 
-    png(filename=names$pumpPng, width=800, height=600, res=300, pointsize=3)
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    png(filename=pngtmp, width=800, height=600, res=300, pointsize=3)
     plotGrowth(tlog)
     title(main=sprintf("%s Pumping", names$display),
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
     dev.off()
-
-    png(filename=names$pumpRecentPng, width=800, height=600, res=300, pointsize=3)
+    file.rename(from=pngtmp, to=names$pumpPng)
+    
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    png(filename=pngtmp, width=800, height=600, res=300, pointsize=3)
     plotGrowth(tlog[tlog$time.s > (max(tlog$time.s) - 60*60*4),])
     title(main=sprintf("%s Pumping Recent", names$display),
           sub=sprintf("Time = %.0f seconds = %0.2f hours", latest, latest/3600.0))          
     dev.off()
-
-##    sprintf("<P> <IMG SRC=\"neph-%s.png\"> </P>\n<P> <IMG SRC=\"pump-%s.png\"> </P>\n<P> <IMG SRC=\"pump-recent-%s.png\"> </P>",
-##            tstat, tstat, tstat)
+    file.rename(from=pngtmp, to=names$pumpRecentPng)
 }
 
 tstatNames <- function(screenlog) {
   tstatbase <- gsub("/", "_", sub(sprintf("^%s/", runbase), "", dirname(screenlog))) 
   list(screenlog = screenlog,
        analyzed = sub("screenlog.0$", "analyzed.txt", screenlog),
+       updateTime = file.mtime(screenlog),
        base = tstatbase,
        display = gsub("/", " ", sub(sprintf("^%s/", runbase), "", dirname(screenlog))),
        html = sprintf("%s/%s_index.html", wwwpath, tstatbase),
@@ -114,42 +118,63 @@ tstatNames <- function(screenlog) {
        pumpRecentPng = sprintf("%s/%s_pump-recent.png", wwwpath, tstatbase))
 }
 
-screenlogs <- list.files(runbase, pattern="screenlog.0", full.names=TRUE, recursive=TRUE)
+htmlPrefix <- function(title) {
+  sprintf("<?xml version=\"1.0\"?>
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">
+<html xmlns=\"http://www.w3.org/1999/xhtml\">
+<HTML>
+<HEAD><TITLE>%s</TITLE><meta http-equiv=\"refresh\" content=\"60\"></HEAD>
+<BODY>", title)
+}
 
-for (screenlog in screenlogs) {
+htmlSuffix <- function() { "</BODY></HTML>" }
+
+writeTstatPage <- function(names) {
+  plots <-  sprintf("<P> <IMG SRC=\"%s\"> </P>\n<P> <IMG SRC=\"%s\"> </P>\n<P> <IMG SRC=\"%s\"> </P>",
+                    basename(names$nephPng),
+                    basename(names$pumpPng),
+                    basename(names$pumpRecentPng))
+  page <- sprintf("%s\n%s\n%s\n",
+                  htmlPrefix(sprintf("Turbidostat %s", names$display)), plots, htmlSuffix())
+
+  conn <- file(names$html)
+  writeLines(c(htmlPrefix(names$display), plots, htmlSuffix()), conn)
+  close(conn)
+}
+
+analyzeTstat <- function(names) {
+  write.table(x=data.frame(), file=names$analyzed, col.names=FALSE)
+  plotTstat(names)
+  writeTstatPage(names)
+}
+  
+screenlogAnalysis <- function(screenlog) {
   names <- tstatNames(screenlog)
   if (!file_test("-nt", names$analyzed, names$screenlog)) {
-    write.table(x=data.frame(), file=names$analyzed, col.names=FALSE)
-    plotTstat(names)
+    try(analyzeTstat(names))
   }
+  names
+}
+
+while (TRUE) {
+  screenlogs <- list.files(runbase, pattern="screenlog.0", full.names=TRUE, recursive=TRUE)
+  
+  runs <- lapply(screenlogs, screenlogAnalysis)
+  
+  runOrder <- order(sapply(runs, function(r) { r$updateTime }), decreasing=TRUE)
+  runs <- runs[runOrder]
+  
+  conn <- file(sprintf("%s/index.html", wwwpath))
+  writeLines(c(htmlPrefix("Turbidostat Runs"),
+               "<UL>",
+               sapply(runs, function(r) { sprintf("<LI><A href=\"%s\">%s</A>", basename(r$html), r$display) }),
+               "</UL>",
+               htmlSuffix()),
+             conn)
+  close(conn)
+
+  Sys.sleep(1)
 }
 
 ## ZZZ
-## Compute filenames separately from plotting files
-## Generate HTML with computed filenames
 ## Collect all "recent" plots" on one page
-
-## tstats <- list.dirs(exptdir, full.names=FALSE, recursive=FALSE)
-## print(exptdir)
-## print(tstats)
-
-## htmlBody <- c()
-
-## for (tstat in tstats) {
-##     htmlFrag <- handleTstat(tstat)
-##     htmlBody <- c(htmlBody, htmlFrag)
-## }
-
-## htmlPrefix <-"<?xml version=\"1.0\"?>
-## <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">
-## <html xmlns=\"http://www.w3.org/1999/xhtml\">
-## <HTML>
-## <HEAD><TITLE>Turbidostat</TITLE><meta http-equiv=\"refresh\" content=\"60\"></HEAD>
-## <BODY>"
-## htmlPumping <- sprintf("<P>Total pump time (including fill) %0.0f seconds, %0.0f ml</P>",
-##                        totalPumpTime, totalPumpTime * voltime / 3600)
-## htmlSuffix <- "</BODY></HTML>"
-
-## conn <- file(sprintf("%s/tstat.html", wwwpath))
-## writeLines(c(htmlPrefix, htmlPumping, htmlBody, htmlSuffix), conn)
-## close(conn)
