@@ -69,7 +69,7 @@ plotGrowth <- function(tlog) {
           col=rgb(231,41,138,154,maxColorValue=255))
     legend(x="topleft", bty="n",
            legend=sprintf("last %0.1f hours\nduty = %0.3f\nk = %0.2e s^-1\nTdbl = %0.2f hrs\n%0.0f ml/hr",
-             recenttime, coef(tlogFit)[[2]], kgrow, tdbl, vtime),
+             recentfit, coef(tlogFit)[[2]], kgrow, tdbl, vtime),
            lwd=2, col=rgb(231,41,138,154,maxColorValue=255))
     axis(side=4, at=c(0, pumptime / filltime),
          labels=sprintf("%0.0f ml",
