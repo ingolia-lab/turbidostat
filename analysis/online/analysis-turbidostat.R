@@ -12,29 +12,19 @@ library("RColorBrewer")
 ## Extract and read turbidostat data
 getTlog <- function(screenfile) {
   ## Grep out one turbidostat header followed by all turbidostat data lines
-  ## Direct into a temporary file and return the temporary filename
-  extractTlog <- function(screenfile) {
-    print(screenfile)
-    tlogfile <- tempfile(pattern="tlog", tmpdir=dirname(screenfile), fileext=".txt")
-    
+  ## Read turbidostat log into a data.frame
+  extractTlog <- function(screenfile, tlogfile) {
     system(sprintf("grep \'%s\' \'%s\' | grep time.s | head -n1 > %s",
                    prefix, screenfile, tlogfile))
     system(sprintf("grep \'%s\' \'%s\' | grep -v time.s >> %s",
                    prefix, screenfile, tlogfile))
-    
-    tlogfile
-  }
-  
-  ## Read turbidostat log (created by extractTlog) into a data.frame
-  readTlog <- function(tlogfile) {
     tlog <- read.delim(tlogfile)
     tlog$pumptime.s <- tlog$pumptime.s - min(tlog$pumptime.s)
     tlog
-  }    
+  }
   
-  tlogfile <- extractTlog(screenfile)
-  tlog <- readTlog(tlogfile)
-  file.remove(tlogfile)
+  tlogfile <- tempfile(pattern="tlog", tmpdir=dirname(screenfile), fileext=".txt")
+  tlog <- tryCatch(extractTlog(screenfile, tlogfile), finally=file.remove(tlogfile))
   tlog
 }
 
@@ -59,7 +49,7 @@ plotGrowth <- function(tlog) {
 
     pumptime <- max(tlog$pumptime.s)
 
-    print(sprintf("[[1]] = %0.3f, [[2]] = %0.3f\n", coef(tlogFit)[[1]], coef(tlogFit)[[2]]))
+    ## print(sprintf("[[1]] = %0.3f, [[2]] = %0.3f\n", coef(tlogFit)[[1]], coef(tlogFit)[[2]]))
     
     plot(tlog$time.s / (3600), tlog$pumptime.s / filltime,
          type="l", lwd=2, 
@@ -77,13 +67,13 @@ plotGrowth <- function(tlog) {
                           (filltime + pumptime) * (voltime / 3600))))
 }
 
-## Generate turbidostat plots 
+## Generate turbidostat plots -- neph, total growth, and recent growth
 plotTstat <- function(names) {
     tlog <- getTlog(names$screenlog)
 
     latest = max(tlog$time.s)
 
-    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext=".png")
     png(filename=pngtmp, width=800, height=400, res=300, pointsize=3)
     plotNeph(tlog)
     title(main=sprintf("%s Turbidity", names$display),
@@ -91,7 +81,7 @@ plotTstat <- function(names) {
     dev.off()
     file.rename(from=pngtmp, to=names$nephPng)
 
-    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext=".png")
     png(filename=pngtmp, width=800, height=600, res=300, pointsize=3)
     plotGrowth(tlog)
     title(main=sprintf("%s Pumping", names$display),
@@ -99,7 +89,7 @@ plotTstat <- function(names) {
     dev.off()
     file.rename(from=pngtmp, to=names$pumpPng)
     
-    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext="png")
+    pngtmp <- tempfile(pattern="temp-plot", tmpdir=dirname(names$nephPng), fileext=".png")
     png(filename=pngtmp, width=800, height=600, res=300, pointsize=3)
     plotGrowth(tlog[tlog$time.s > (max(tlog$time.s) - recentplot*3600),])
     title(main=sprintf("%s Pumping Recent", names$display),
@@ -154,6 +144,7 @@ analyzeTstat <- function(names) {
 screenlogAnalysis <- function(screenlog) {
   names <- tstatNames(screenlog)
   if (!file_test("-nt", names$analyzed, names$screenlog)) {
+    print(sprintf("%s: Analyzing %s", format.POSIXct(Sys.time()), screenlog))
     try(analyzeTstat(names))
   }
   names
