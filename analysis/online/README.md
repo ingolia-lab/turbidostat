@@ -10,8 +10,7 @@ configurations are possible.
 
 Below, we describe:
 * How to set up directory structure for a turbidostat experiment
-* How to use `copy-run.sh` to copy data automatically from the "data logger" to the "web server"
-* How to use `analyze-run.sh` to monitor copied data and re-run an analysis script when needed
+* How to use `sync-runs.sh` to copy data automatically from the "data logger" to the "web server"
 * How to use `analysis-turbidostat.R` to create a web page with plots of turbidity and growth
 
 #### Directory structure for turbidostat experiments
@@ -23,8 +22,9 @@ set up two turbidostats in the following way:
 
 For the "left" turbidostat, connected to `/dev/tty.usbmodem1421`
 ```
-data-logger:~ tstat$ mkdir tstat-2018-01-23
-data-logger:~ tstat$ cd tstat-2018-01-23
+data-logger:~ tstat$ cd runs
+data-logger:runs tstat$ mkdir tstat-2018-01-23
+data-logger:runs tstat$ cd tstat-2018-01-23
 data-logger:tstat-2018-01-23 tstat$ mkdir left
 data-logger:tstat-2018-01-23 tstat$ cd left
 data-logger:left tstat$ screen -L /dev/tty.usbmodem1421
@@ -33,7 +33,8 @@ data-logger:left tstat$ screen -L /dev/tty.usbmodem1421
 In a separate `Terminal.app` window, for the "right" turbidostat
 connected to `/dev/tty.usbmodem1431`
 ```
-data-logger:~ tstat$ cd tstat-2018-01-23
+data-logger:~ tstat$ cd runs
+data-logger:runs tstat$ cd tstat-2018-01-23
 data-logger:tstat-2018-01-23 tstat$ mkdir right
 data-logger:right tstat$ cd right
 data-logger:right tstat$ screen -L /dev/tty.usbmodem1431
@@ -41,23 +42,28 @@ data-logger:right tstat$ screen -L /dev/tty.usbmodem1431
 
 The final directory structure is then
 ```
-tstat-2018-01-23
- \_ left
-     \_ screenlog.0
- \_ right
-     \_ screenlog.0
+runs
+ \_ tstat-...
+     ...
+ \_ tstat-2018-01-23
+      \_ left
+          \_ screenlog.0
+      \_ right
+          \_ screenlog.0
+ \_ tstat-...
+     ...
 ```
 
 #### Automatically copying turbidostat data
 
-The `copy-run.sh` script runs on the "data logger" computer and
+The `sync-runs.sh` script runs on the "data logger" computer and
 periodically copies data to the "web server" computer. Edit the
-`copy-run.sh` script to specify the destination directory on the "web
+`sync-run.sh` script to specify the destination directory on the "web
 server" computer. For a user named `tstat` on the computer
 `web-server.ingolia-lab.org`, we might use:
 
 ```
-DEST="tstat@web-server.ingolia-lab.org:data/"
+DEST="tstat@web-server.ingolia-lab.org:runs/"
 ```
 
 ##### Creating a public/private key pair for data transfer (just once)
@@ -110,48 +116,49 @@ script:
 data-logger:~ tstat$ ssh-add
 Enter passphrase for /Users/tstat/.ssh/id_rsa: 
 Identity added: /Users/tstat/.ssh/id_rsa (/Users/tstat/.ssh/id_rsa)
-data-logger:~ tstat$ ~/scripts/copy-run.sh
-ZZZ
+data-logger:~ tstat$ cd runs
+data-logger:runs tstat$ ~/scripts/sync-runs.sh
 ```
 
 #### Automatically analyzing turbidostat data
 
-The `analyze-run.sh` script runs on the "web server" computer, watches
-for updated data copied over from the "data logger" computer, and runs
-an analysis script.
+The `analysis-turbidostat.R` script is an R program that runs on the
+"web server" computer, watches for updated data copied over from the
+"data logger" computer, and analyzes the results in order to generate
+a web-accessible analysis.
 
 ##### Analysis configuration (just once)
 
-The `analyze-run.sh` script must be configured with the web-accessible
-output location, writable by the user running the script, as well as
-the path to the R analysis script itself. These two file paths are
-specified in variables at the top of the `analyze-run.sh` script.
+The `analysis-turbidostat.R` script must be configured with the
+web-accessible output location, writable by the user running the
+script, as well as the path to runs directory. These two file paths
+are specified in variables at the top of the `analysis-turbidostat.R`
+script.
 
 For example, if the `tstat` user's home directory is
 `/zpool/home/tstat/` and the scripts are located in the
 `turbidostat/analysis/online/` directory within their homedir:
 ```
-#!/bin/bash
+runbase <- "/zpool/home/tstat/runs"
+wwwpath <- "/var/www/tstat/"
 
-export WWWPATH="/var/www/tstat/"
-export ANALYSIS="/zpool/home/tstat/turbidostat/analysis/online/analysis-turbidostat.R"
 ...
 ```
 
-Verify the configuration of the `analyze-run.sh` script by running it
+Verify the configuration of the `analysis-turbidostat.R` script by running it
 in the foreground:
 ```
-tstat@web-server:~ > ~/turbidostat/analysis/online/analyze-run.sh ~/data/tstat-2018-01-23
+tstat@web-server:~ > R --no-save < ~/turbidostat/analysis/online/analysis-turbidostat.R
 ZZZ
 ...
 ```
 
-##### Automatic analysis (each experiment)
+##### Automatic analysis
 
-Run the `analyze-run.sh` script as an ongoing, background process on
+Run the `analysis-turbidostat.R` script as an ongoing, background process on
 the "web server" computer:
 ```
-tstat@web-server:~ > nohup ~/turbidostat/analysis/online/analyze-run.sh ~/data/tstat-2018-01-23 &
+tstat@web-server:~ > nohup ~/turbidostat/analysis/online/analysis-turbidostat.R &
 [1] 3141
 appending output to nohup.out
 tstat@web-server:~ > 
@@ -166,7 +173,3 @@ process ID of your analysis script (3141 in the example above) and
 tstat@web-server:~ > kill 3141
 ```
 
-#### Online analysis of turbidostat logs
-
-The `analysis-turbidostat.R` script generates a web page of automatic
-analysis from running turbidostats. Briefly, it extracts the 
