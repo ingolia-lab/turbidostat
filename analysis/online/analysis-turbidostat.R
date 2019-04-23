@@ -136,7 +136,7 @@ writeTstatPage <- function(names) {
 }
 
 analyzeTstat <- function(names) {
-  write.table(x=data.frame(), file=names$analyzed, col.names=FALSE)
+  write.table(x=data.frame(), file=names$analyzed)
   plotTstat(names)
   writeTstatPage(names)
 }
